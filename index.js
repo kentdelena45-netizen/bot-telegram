@@ -10,6 +10,14 @@ const CHANNEL_ID = "@ZEIJIEACCOUNTSHOP";
 let shopStatus = 'closed';
 const TIMEZONE = "Asia/Manila";
 
+// ===== FUNCTION: GET TIME =====
+function getTime() {
+    return new Date().toLocaleString("en-PH", {
+        timeZone: TIMEZONE,
+        hour12: true
+    });
+}
+
 // ===== FUNCTIONS =====
 function openShop() {
     shopStatus = 'open';
@@ -42,7 +50,7 @@ bot.onText(/\/testclose/, (msg) => {
 
 // ===== SCHEDULE =====
 
-// MONDAY 1PM → 12MN
+// MONDAY
 cron.schedule('0 13 * * 1', openShop, { timezone: TIMEZONE });
 cron.schedule('0 0 * * 2', closeShop, { timezone: TIMEZONE });
 
@@ -103,17 +111,19 @@ bot.on('message', (msg) => {
         );
     }
 
-    // BUY
+    // BUY ACCOUNT (MAIN FEATURE)
     if (text === "🛒 Buy Account") {
         if (shopStatus === 'closed') {
             return bot.sendMessage(chatId, "🔴 Shop is CLOSED.");
         }
 
+        const timeNow = getTime();
+
         bot.sendMessage(
             OWNER_ID,
-            `🛒 NEW BUYER\nUser: @${msg.from.username || "No username"}\nID: ${msg.from.id}`
+            `🛒 NEW BUYER\n\n👤 User: @${msg.from.username || "No username"}\n🆔 ID: ${msg.from.id}\n⏰ Time: ${timeNow}`
         );
 
-        return bot.sendMessage(chatId, "✅ Admin will message you.");
+        return bot.sendMessage(chatId, "✅ Request sent! Admin will message you.");
     }
 });
