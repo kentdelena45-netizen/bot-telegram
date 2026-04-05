@@ -5,7 +5,7 @@ const token = '8458043093:AAHWcxPht0sSONOjTKz3MHktajulgl4AVuU';
 const bot = new TelegramBot(token, { polling: true });
 
 const OWNER_ID = 8420104044;
-const CHANNEL_ID = "-1003799506549";
+const CHANNEL_ID = "@ZEIJIEACCOUNTSHOP";
 
 let shopStatus = 'closed';
 const TIMEZONE = "Asia/Manila";
