@@ -8,13 +8,23 @@ const OWNER_ID = 8420104044;
 const CHANNEL_ID = "@ZEIJIEACCOUNTSHOP";
 
 let shopStatus = 'closed';
+let shopMessageId = null;
 const TIMEZONE = "Asia/Manila";
 
-// ===== FUNCTION: GET TIME =====
-function getTime() {
-    return new Date().toLocaleString("en-PH", {
-        timeZone: TIMEZONE,
-        hour12: true
+// ===== SEND / REFRESH MESSAGE (OPTION 3) =====
+function sendOrRefreshMessage() {
+    const text = shopStatus === 'open'
+        ? "🟢 SHOP IS NOW OPEN!\n\n🛒 Buy now!"
+        : "🔴 SHOP IS NOW CLOSED!\n\n⏰ Come back later!";
+
+    // delete old message
+    if (shopMessageId) {
+        bot.deleteMessage(CHANNEL_ID, shopMessageId).catch(() => {});
+    }
+
+    // send new one (always nasa bottom)
+    bot.sendMessage(CHANNEL_ID, text).then(msg => {
+        shopMessageId = msg.message_id;
     });
 }
 
@@ -25,7 +35,7 @@ function openShop() {
     console.log("SHOP OPEN TRIGGERED");
 
     bot.sendMessage(OWNER_ID, "🟢 Shop OPENED");
-    bot.sendMessage(CHANNEL_ID, "🟢 SHOP IS NOW OPEN!\n\n🛒 Buy now!");
+    sendOrRefreshMessage();
 }
 
 function closeShop() {
@@ -34,7 +44,7 @@ function closeShop() {
     console.log("SHOP CLOSE TRIGGERED");
 
     bot.sendMessage(OWNER_ID, "🔴 Shop CLOSED");
-    bot.sendMessage(CHANNEL_ID, "🔴 SHOP IS NOW CLOSED!\n\n⏰ Come back later!");
+    sendOrRefreshMessage();
 }
 
 // ===== TEST COMMANDS =====
@@ -48,9 +58,17 @@ bot.onText(/\/testclose/, (msg) => {
     closeShop();
 });
 
+// ===== REFRESH COMMAND (IMPORTANT 🔥) =====
+bot.onText(/\/refresh/, (msg) => {
+    if (msg.from.id !== OWNER_ID) return;
+
+    sendOrRefreshMessage();
+    bot.sendMessage(msg.chat.id, "✅ Bot message moved to bottom.");
+});
+
 // ===== SCHEDULE =====
 
-// MONDAY
+// MONDAY 1PM → 12MN
 cron.schedule('0 13 * * 1', openShop, { timezone: TIMEZONE });
 cron.schedule('0 0 * * 2', closeShop, { timezone: TIMEZONE });
 
@@ -111,19 +129,17 @@ bot.on('message', (msg) => {
         );
     }
 
-    // BUY ACCOUNT (MAIN FEATURE)
+    // BUY
     if (text === "🛒 Buy Account") {
         if (shopStatus === 'closed') {
             return bot.sendMessage(chatId, "🔴 Shop is CLOSED.");
         }
 
-        const timeNow = getTime();
-
         bot.sendMessage(
             OWNER_ID,
-            `🛒 NEW BUYER\n\n👤 User: @${msg.from.username || "No username"}\n🆔 ID: ${msg.from.id}\n⏰ Time: ${timeNow}`
+            `🛒 NEW BUYER\nUser: @${msg.from.username || "No username"}\nID: ${msg.from.id}`
         );
 
-        return bot.sendMessage(chatId, "✅ Request sent! Admin will message you.");
+        return bot.sendMessage(chatId, "✅ Admin will message you.");
     }
 });
