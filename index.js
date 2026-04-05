@@ -14,6 +14,8 @@ const TIMEZONE = "Asia/Manila";
 function openShop() {
     shopStatus = 'open';
 
+    console.log("SHOP OPEN TRIGGERED");
+
     bot.sendMessage(OWNER_ID, "🟢 Shop OPENED");
     bot.sendMessage(CHANNEL_ID, "🟢 SHOP IS NOW OPEN!\n\n🛒 Buy now!");
 }
@@ -21,9 +23,22 @@ function openShop() {
 function closeShop() {
     shopStatus = 'closed';
 
+    console.log("SHOP CLOSE TRIGGERED");
+
     bot.sendMessage(OWNER_ID, "🔴 Shop CLOSED");
     bot.sendMessage(CHANNEL_ID, "🔴 SHOP IS NOW CLOSED!\n\n⏰ Come back later!");
 }
+
+// ===== TEST COMMANDS =====
+bot.onText(/\/testopen/, (msg) => {
+    if (msg.from.id !== OWNER_ID) return;
+    openShop();
+});
+
+bot.onText(/\/testclose/, (msg) => {
+    if (msg.from.id !== OWNER_ID) return;
+    closeShop();
+});
 
 // ===== SCHEDULE =====
 
