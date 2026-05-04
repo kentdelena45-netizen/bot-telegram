@@ -80,7 +80,7 @@ bot.onText(/\/start/, async (msg) => {
   try {
     await bot.sendMessage(chatId,
       `<b>╔══════════════════════╗</b>\n` +
-      `<b>   🛒 ZEIJIE ORDER BOT 🛒   </b>\n` +
+      `<b>   🛒 E|C RushPK ORDER BOT 🛒   </b>\n` +
       `<b>╚══════════════════════╝</b>\n\n` +
       `👋 Hey, <b>${h(name)}!</b> Welcome!\n\n` +
       `<b>━━━━━ WHAT WE OFFER ━━━━━</b>\n` +
