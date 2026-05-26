@@ -1,0 +1,2 @@
+proxy.geonode.io:9000:geonode_e2x5p7LN1w-type-residential-country-us:ded2ae19-149f-459a-9224-b09ccb6a814d
+proxy.geonode.io:9000:geonode_e2x5p7LN1w-type-residential:ded2ae19-149f-459a-9224-b09ccb6a814d
