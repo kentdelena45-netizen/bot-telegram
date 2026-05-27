@@ -1,5 +1,0 @@
-socks5://ax_jbytl3e7:vas1t5ia4gz1@165.245.185.214:25587
-socks5://ax_jbytl3e7:vas1t5ia4gz1@165.245.185.214:25587
-socks5://ax_jbytl3e7:vas1t5ia4gz1@165.245.185.214:25587
-socks5://ax_jbytl3e7:vas1t5ia4gz1@165.245.185.214:25587
-socks5://ax_jbytl3e7:vas1t5ia4gz1@165.245.185.214:25587
